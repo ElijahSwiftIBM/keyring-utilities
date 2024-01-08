@@ -7,6 +7,7 @@
 *                                                                                 *
 */
 
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
 #include <assert.h>
@@ -28,26 +29,34 @@
 #define _STRINGIFY(s) #s
 #define STRINGIFY(s) _STRINGIFY(s)
 
-int validateAndExtractString(napi_env, char*, napi_value, int, char*);
-int encode_base64_and_create_napi_string(napi_env, char *, int , napi_value *, char *, char *);
-
 // Function to pass return codes back to caller as pyobject for error handling
-static pyObject* throwRdatalibException(int function, int safRC, int racfRC, int racfRSN ) {
-  return Py_BuildValue("BBB", safRC, racfRC, racfRSN);
+static PyObject* throwRdatalibException(int function, int safRC, int racfRC, int racfRSN ) {
+  return Py_BuildValue(
+    "{s:B,s:B,s:B,s:B}",
+    "functionCode", function,
+    "SafReturnCode", safRC,
+    "RacfReturnCode", racfRC,
+    "RacfReasonCode", racfRSN
+  );
 }
 
 // Entry point to the getData() function
-static pyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
+static PyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
+  const char * userid_in, keyring_in, label_in;
   char userid[MAX_USERID_LEN + 1];
   char keyring[MAX_KEYRING_LEN + 1];
   char label[MAX_LABEL_LEN + 1];
-  pyObject *buffer_cert, *buffer_key;
+  PyObject *buffer_cert, *buffer_key;
 
   static char *kwlist[] = {"userid", "keyring", "label", NULL};
 
-  if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|yyy", kwlist, &userid, &keyring, &label)) {
+  if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|yyy", kwlist, &userid_in, &keyring_in, &label_in)) {
       return NULL;
   }
+
+  strncpy(userid, userid_in, MAX_USERID_LEN);
+  strncpy(keyring, keyring_in, MAX_KEYRING_LEN);
+  strncpy(label, label_in, MAX_LABEL_LEN);
 
   Data_get_buffers buffers;
   memset(&buffers, 0x00, sizeof(Data_get_buffers));
@@ -64,7 +73,7 @@ static pyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
   return Py_BuildValue(
     "{s:y#,s:y#}",
     "certificate", buffers.certificate, buffers.certificate_length,
-    "private key", buffers.private_key buffers.private_key_length
+    "privateKey", buffers.private_key, buffers.private_key_length
   );
 }
 
@@ -84,7 +93,7 @@ int lengthWithoutTralingSpaces(char *str, int maxlen) {
 }
 
 // Build a python dictionary with cert information from current certificate
-void getCertItem(R_datalib_data_get *getParm) {
+PyObject *getCertItem(R_datalib_data_get *getParm) {
   char *usage, *status;
   int certUserLen;
 
@@ -116,9 +125,9 @@ void getCertItem(R_datalib_data_get *getParm) {
   }
 
   return Py_BuildValue(
-    "{s:y#,s:y#,s:s,s:s,s:p,s:y#}",
+    "{s:y#,s:y#,s:s,s:s,s:i,s:y#}",
     "label", getParm->label_ptr, getParm->label_len,
-    "owner", getParm->cert_userid, certUserLen "usage", usage,
+    "owner", getParm->cert_userid, certUserLen, "usage", usage,
     "status", status, "default", getParm->Default,
     "certificate", getParm->certificate_ptr, getParm->certificate_len
   );
@@ -126,15 +135,19 @@ void getCertItem(R_datalib_data_get *getParm) {
 }
 
 // Entry point to the listKeyring() function
-static pyObject* listKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
+static PyObject* listKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
+  const char *userid_in, *keyring_in;
   char userid[MAX_USERID_LEN + 1];
   char keyring[MAX_KEYRING_LEN + 1];
 
   static char *kwlist[] = {"userid", "keyring", NULL};
 
-  if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|yy", kwlist, &userid, &keyring)) {
+  if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|yy", kwlist, &userid_in, &keyring_in)) {
       return NULL;
   }
+
+  strncpy(userid, userid_in, MAX_USERID_LEN);
+  strncpy(keyring, keyring_in, MAX_KEYRING_LEN);
 
   int origMode;
   int rc = 0;
@@ -189,7 +202,7 @@ static pyObject* listKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
       return throwRdatalibException(parms.function_code, parms.return_code, parms.RACF_return_code, parms.RACF_reason_code);
     }
     else {
-      PyList_Append(cert_array, getCertItem(&getParm);
+      PyList_Append(cert_array, getCertItem(&getParm));
     }
   }
 

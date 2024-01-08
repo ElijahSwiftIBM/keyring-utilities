@@ -161,16 +161,7 @@ typedef _Packed struct _R_datalib_data_put { // DO NOT change property positions
 
 void invoke_R_datalib(R_datalib_parm_list_64*);
 void set_up_R_datalib_parameters(R_datalib_parm_list_64* , R_datalib_function* , char* ,char* );
-void simple_action(R_datalib_parm_list_64*, void*, Command_line_parms*);
-void delcert_action(R_datalib_parm_list_64*, void*, Command_line_parms*);
-void getcert_action(R_datalib_parm_list_64*, void*, Command_line_parms*);
-void import_action(R_datalib_parm_list_64*, void*, Command_line_parms*);
-void print_help(R_datalib_parm_list_64*, void*, Command_line_parms*);
-void process_cmdline_parms(Command_line_parms*, int , char**);
-void validate_and_set_parm(char*, char*, int);
 void check_return_code(R_datalib_parm_list_64*);
 void dump_certificate_and_key(Data_get_buffers*);
-void write_to_file(char*, char*, int, int);
-int load_pkcs12_file(gsk_buffer*, char*);
 
 #endif
