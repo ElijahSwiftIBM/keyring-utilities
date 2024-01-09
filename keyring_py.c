@@ -15,7 +15,7 @@
 #include <string.h>
 #include <strings.h>
 #include <unistd.h>
-#include <gskcms.h>
+#include <ctype.h>
 
 #include "keyring_get.h"
 
