@@ -26,7 +26,6 @@ def main():
                     ],
                     include_dirs = ['src/h'],
                     define_macros = [("_AE_BIMODAL", "1")],
-                    libraries = ["GSKCMS64.x"],
                     library_dirs = ["/usr/lib/"],
                     extra_compile_args=[
                         "-D_XOPEN_SOURCE_EXTENDED",
