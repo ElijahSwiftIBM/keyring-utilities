@@ -15,7 +15,6 @@
 #include <string.h>
 #include <strings.h>
 #include <unistd.h>
-#include <ctype.h>
 
 #include "keyring_get.h"
 
@@ -60,9 +59,7 @@ static PyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
   memset(&buffers, 0x00, sizeof(Data_get_buffers));
   Return_codes ret_codes;
 
-  int orig_mode = __ae_thread_swapmode(__AE_EBCDIC_MODE);
   get_data(userid, keyring, label, &buffers, &ret_codes);
-  __ae_thread_swapmode(orig_mode);
   if (ret_codes.SAF_return_code != 0) {
     return throwRdatalibException(ret_codes.function_code, ret_codes.SAF_return_code,
                            ret_codes.RACF_return_code, ret_codes.RACF_reason_code);
