@@ -15,6 +15,7 @@
 #include <string.h>
 #include <strings.h>
 #include <unistd.h>
+#include <gskcms.h>
 
 #include "keyring_get.h"
 
@@ -22,9 +23,6 @@
 #define GET_DATA_NUM_ARG 4
 #define LIST_KEYRING_NUM_ARG 2
 #define MAX_FORMAT_LEN 3
-
-#define BEGINCERT "-----BEGIN CERTIFICATE-----\n"
-#define ENDCERT "-----END CERTIFICATE-----"
 
 #define _STRINGIFY(s) #s
 #define STRINGIFY(s) _STRINGIFY(s)
@@ -151,7 +149,6 @@ static PyObject* listKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
 
   int origMode;
   int rc = 0;
-  napi_value element;
   Data_get_buffers buffers;
   R_datalib_parm_list_64 parms;
   R_datalib_data_get getParm;
