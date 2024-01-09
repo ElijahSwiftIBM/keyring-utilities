@@ -20,7 +20,7 @@ def main():
                 Extension(
                     "pykeyring",
                     sources = [
-                        "pyobjtest.c",
+                        "keyring_py.c",
                         "src/c/keyring_get.c",
                         "src/c/keyring_service.c"
                     ],
