@@ -141,8 +141,8 @@ static PyObject* listKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
       return NULL;
   }
 
-  strncpy(userid, userid_in, MAX_USERID_LEN);
-  strncpy(keyring, keyring_in, MAX_KEYRING_LEN);
+  strncpy(&userid, userid_in, MAX_USERID_LEN);
+  strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
 
   int origMode;
   int rc = 0;
