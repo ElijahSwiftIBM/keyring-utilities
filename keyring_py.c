@@ -51,9 +51,9 @@ static PyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
       return NULL;
   }
 
-  strncpy(userid, userid_in, MAX_USERID_LEN);
-  strncpy(keyring, keyring_in, MAX_KEYRING_LEN);
-  strncpy(label, label_in, MAX_LABEL_LEN);
+  strncpy(&userid, userid_in, MAX_USERID_LEN);
+  strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
+  strncpy(&label, label_in, MAX_LABEL_LEN);
 
   Data_get_buffers buffers;
   memset(&buffers, 0x00, sizeof(Data_get_buffers));
