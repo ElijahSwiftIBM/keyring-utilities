@@ -39,7 +39,7 @@ static PyObject* throwRdatalibException(int function, int safRC, int racfRC, int
 
 // Entry point to the getData() function
 static PyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
-  const char * userid_in, keyring_in, label_in;
+  const char * userid_in, * keyring_in, * label_in;
   char userid[MAX_USERID_LEN + 1] = "";
   char keyring[MAX_KEYRING_LEN + 1] = "";
   char label[MAX_LABEL_LEN + 1] = "";
