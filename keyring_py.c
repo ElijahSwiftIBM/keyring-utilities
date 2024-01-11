@@ -40,9 +40,9 @@ static PyObject* throwRdatalibException(int function, int safRC, int racfRC, int
 // Entry point to the getData() function
 static PyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
   const char * userid_in, keyring_in, label_in;
-  char userid[MAX_USERID_LEN + 1] ="sample";
-  char keyring[MAX_KEYRING_LEN + 1];
-  char label[MAX_LABEL_LEN + 1];
+  char userid[MAX_USERID_LEN + 1] = "";
+  char keyring[MAX_KEYRING_LEN + 1] = "";
+  char label[MAX_LABEL_LEN + 1] = "";
   PyObject *buffer_cert, *buffer_key;
 
   static char *kwlist[] = {"userid", "keyring", "label", NULL};
@@ -51,8 +51,6 @@ static PyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
       return NULL;
   }
 
-  printf("passed userid: %s\n", userid_in);
-  printf("spacd for new userid: %s\n", userid);
   strncpy(&userid, userid_in, MAX_USERID_LEN);
   strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
   strncpy(&label, label_in, MAX_LABEL_LEN);
@@ -134,8 +132,8 @@ PyObject *getCertItem(R_datalib_data_get *getParm) {
 // Entry point to the listKeyring() function
 static PyObject* listKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
   const char *userid_in, *keyring_in;
-  char userid[MAX_USERID_LEN + 1];
-  char keyring[MAX_KEYRING_LEN + 1];
+  char userid[MAX_USERID_LEN + 1] = "";
+  char keyring[MAX_KEYRING_LEN + 1] = "";
 
   static char *kwlist[] = {"userid", "keyring", NULL};
 
