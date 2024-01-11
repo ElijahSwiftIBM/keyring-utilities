@@ -58,7 +58,6 @@ static PyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
   printf("Passed userid:  '%s' | Length: '%d'\nCurrent userid:  '%s' | Length: '%d'\n", userid_in, strlen(userid_in), userid, strlen(userid));
   printf("Passed keyring: '%s' | Length: '%d'\nCurrent keyring: '%s' | Length: '%d'\n", keyring_in, strlen(keyring_in), keyring, strlen(keyring));
   printf("Passed label:   '%s' | Length: '%d'\nCurrent label:   '%s' | Length: '%d'\n", label_in, strlen(label_in), label, strlen(label));
-  printf("Maximum userid length: '%d\nMaximum keyring length: '%d'\nMaximum label length: '%d'\n", MAX_USERID_LEN, MAX_KEYRING_LEN, MAX_LABEL_LEN);
 
   Data_get_buffers buffers;
   memset(&buffers, 0x00, sizeof(Data_get_buffers));
@@ -151,7 +150,6 @@ static PyObject* listKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
 
   printf("Passed userid:  '%s' | Length: '%d'\nCurrent userid:  '%s' | Length: '%d'\n", userid_in, strlen(userid_in), userid, strlen(userid));
   printf("Passed keyring: '%s' | Length: '%d'\nCurrent keyring: '%s' | Length: '%d'\n", keyring_in, strlen(keyring_in), keyring, strlen(keyring));
-  printf("Maximum userid length: '%d\nMaximum keyring length: '%d'\n", MAX_USERID_LEN, MAX_KEYRING_LEN);
 
   int origMode;
   int rc = 0;
