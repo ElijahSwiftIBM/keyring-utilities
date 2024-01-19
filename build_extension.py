@@ -1,11 +1,12 @@
-"""Build R_Datalib (pykeyring) Python extesion."""
+"""Build R_Datalib (pydatalib) Python extesion."""
 
 import os
 
-from setuptools import Extension, setup
+from setuptools import Extension
+from setuptools.command import build_ext
 
 
-def main():
+def build(setup_kwargs: dict):
     """Python extension build entrypoint."""
     os.environ["_CC_CCMODE"] = "1"
     os.environ["_CXX_CCMODE"] = "1"
@@ -15,18 +16,19 @@ def main():
     os.environ["_C89_EXTRA_ARGS"] = "1"
     os.environ["CC"] = "xlc"
     os.environ["CXX"] = "xlc++"
-    setup_args = {
+    setup_kwargs.update(
+        {
             "ext_modules": [
                 Extension(
-                    "pykeyring",
-                    sources = [
-                        "keyring_py.c",
+                    "cpydatalib",
+                    sources=[
+                        "src/c/keyring_py.c",
                         "src/c/keyring_get.c",
-                        "src/c/keyring_service.c"
+                        "src/c/keyring_service.c",
                     ],
-                    include_dirs = ['src/h'],
-                    define_macros = [("_AE_BIMODAL", "1")],
-                    library_dirs = ["/usr/lib/"],
+                    include_dirs=["src/h"],
+                    define_macros=[("_AE_BIMODAL", "1")],
+                    library_dirs=["/usr/lib/"],
                     extra_compile_args=[
                         "-D_XOPEN_SOURCE_EXTENDED",
                         "-Wc,lp64,langlvl(EXTC99),STACKPROTECT(ALL),",
@@ -34,8 +36,6 @@ def main():
                     ],
                 )
             ],
-    }
-    setup(**setup_args)
-
-if __name__ == "__main__":
-    main()
+            "cmdclass": {"built_ext": build_ext},
+        }
+    )

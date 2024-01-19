@@ -1,0 +1,7 @@
+[flake8]
+    ignore = W503,E122,E203
+    max-line-length = 99
+    per-file-ignores = 
+        __init__.py:F401
+        src/py/key_admin.py:F401
+    exclude = venv_*

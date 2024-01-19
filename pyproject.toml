@@ -1,0 +1,62 @@
+[build-system]
+    build-backend = "poetry.core.masonry.api"
+    requires = ["poetry-core>=1.7.0", "setuptools>=61"]
+
+[tool.poetry]
+    name="pydatalib"
+    version="1.0b3"
+    description="Python interface to Certificates using R_Datalib RACF Callable Service."
+    license = "EPL-2.0"
+    authors = [
+        "Elijah Swift <elijah.swift@ibm.com>"
+    ]
+    maintainers = [
+        "Elijah Swift <elijah.swift@ibm.com>"
+    ]
+    classifiers=[
+        "Development Status :: 1 - Planning Copy",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: Eclipse Public License 2.0 (EPL-2.0)",
+        "Operating System :: POSIX :: Other",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Programming Language :: Python :: Implementation :: PyPy",
+        "Topic :: Security",
+        "Topic :: System :: Hardware :: Mainframes",
+        "Topic :: System :: Systems Administration",
+    ]
+
+[tool.poetry.build]
+    script = "build_extension.py"
+    generate-setup-file = true
+
+[tool.poetry.dependencies]
+    python = ">=3.10"
+    defusedxml = ">=0.7.1"
+
+[tool.poetry.group.dev.dependencies]
+    isort = ">=5.12.0"
+    pre-commit = ">=3.4.0"
+    black = ">=23.9.1"
+    flake8 = ">=6.1.0"
+    pylint = ">=3.0.0"
+    coverage = ">=7.3.2"
+    wheel = ">=0.41.2"
+
+[tool.isort]
+    profile = "black"
+
+[tool.pylint.FORMAT]
+    max-args = 6
+    max-returns = 7
+    max-attributes = 10
+
+[tool.pylint.'MESSAGES CONTROL']
+    disable = """
+        too-few-public-methods,
+        too-many-public-methods,
+        import-error,
+        pointless-statement
+    """

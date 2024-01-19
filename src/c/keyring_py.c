@@ -222,7 +222,7 @@ static char listKeyringDocs[] =
    "listKeyring(): Returns something and return and reason codes from the R_Datalib RACF Callable Service.\n";
 
 // Method definition
-static PyMethodDef pykeyring_methods[] = {
+static PyMethodDef cpydatalib_methods[] = {
    {"getData", (PyCFunction)getData,
       METH_VARARGS | METH_KEYWORDS, getDataDocs},
    {"listKeyring", (PyCFunction)listKeyring,
@@ -231,18 +231,18 @@ static PyMethodDef pykeyring_methods[] = {
 };
 
 //Module definition
-static struct PyModuleDef pykeyring_module_def =
+static struct PyModuleDef cpydatalib_module_def =
 {
         PyModuleDef_HEAD_INIT,
-        "pykeyring", 
+        "cpydatalib", 
         "C code that enables pyRACF to call the R_datalib RACF callable service.\n",
         -1,
-        pykeyring_methods
+        cpydatalib_methods
 };
 
 //Module initialization function
-PyMODINIT_FUNC PyInit_pykeyring(void)
+PyMODINIT_FUNC PyInit_cpydatalib(void)
 {
         Py_Initialize();
-        return PyModule_Create(&pykeyring_module_def);
+        return PyModule_Create(&cpydatalib_module_def);
 }
