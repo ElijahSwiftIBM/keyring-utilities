@@ -7,7 +7,7 @@ import ebcdic
 from .datalib_service_error import DatalibServiceError
 
 
-class KeyAdmin:
+class CertAdmin:
     """Base (and only) class for Key/Keyring Administration Interface"""
 
     def __init__(self, debug=False, codepage="cp1047") -> None:

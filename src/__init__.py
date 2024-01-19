@@ -1,1 +1,1 @@
-from .py.key_admin import KeyAdmin
+from .py.cert_admin import CertAdmin
