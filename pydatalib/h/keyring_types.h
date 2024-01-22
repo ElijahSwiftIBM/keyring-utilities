@@ -55,8 +55,6 @@ typedef struct _R_datalib_parm_list_64 {
     void *parmlist;
 } R_datalib_parm_list_64;
 
-typedef void (*function_action)(R_datalib_parm_list_64*, void*, Command_line_parms*);
-
 typedef struct _R_datalib_function {
 	char name[MAX_FUNCTION_LEN];
     char code;
