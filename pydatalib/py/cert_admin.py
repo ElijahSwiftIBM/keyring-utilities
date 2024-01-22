@@ -1,9 +1,9 @@
 import base64
+import os
 from typing import List
 
 import cpydatalib
 import ebcdic
-import os
 
 from .datalib_service_error import DatalibServiceError
 
@@ -20,13 +20,17 @@ class CertAdmin:
     ) -> dict:
         """Extracts single certificate with known owner, label and keyring."""
         if self.__debug:
-            print(f"Extracting certificate information for {label} from {userid}/{keyring}")
-        
+            print(
+                f"Extracting certificate information for {label} from {userid}/{keyring}"
+            )
+
         userid_enc = userid.encode(self.__codepage)
         keyring_enc = keyring.encode(self.__codepage)
         label_enc = label.encode(self.__codepage)
 
-        result = cpydatalib.getData(userid=userid_enc, keyring=keyring_enc, label=label_enc)
+        result = cpydatalib.getData(
+            userid=userid_enc, keyring=keyring_enc, label=label_enc
+        )
 
         if "functionCode" in result:
             raise DatalibServiceError(result)
@@ -78,10 +82,8 @@ class CertAdmin:
                     + f"Certificate: {certificate['certificate']}"
                 )
         return result
-    
-    def refresh_keyring(
-        self, userid: str, keyring: str
-    ) -> None:
+
+    def refresh_keyring(self, userid: str, keyring: str) -> None:
         """Refresh the specified Keyring."""
         if self.__debug:
             print(f"Refreshing keyring {userid}/{keyring}")
@@ -89,16 +91,16 @@ class CertAdmin:
         keyring_enc = keyring.encode(self.__codepage)
 
         refresh_code = 11
-        result = cpydatalib.touchKeyring(userid=userid_enc, keyring=keyring_enc, function_code = refresh_code)
+        result = cpydatalib.touchKeyring(
+            userid=userid_enc, keyring=keyring_enc, function_code=refresh_code
+        )
 
         if not (result == 0):
             raise DatalibServiceError(result)
         if self.__debug:
             print(f"Refreshed keyring {keyring} for {userid}")
 
-    def add_keyring(
-        self, userid: str, keyring: str
-    ) -> None:
+    def add_keyring(self, userid: str, keyring: str) -> None:
         """Add the specified Keyring."""
         if self.__debug:
             print(f"Adding {userid}/{keyring}")
@@ -106,16 +108,16 @@ class CertAdmin:
         keyring_enc = keyring.encode(self.__codepage)
 
         add_code = 7
-        result = cpydatalib.touchKeyring(userid=userid_enc, keyring=keyring_enc, function_code = add_code)
+        result = cpydatalib.touchKeyring(
+            userid=userid_enc, keyring=keyring_enc, function_code=add_code
+        )
 
         if not (result == 0):
             raise DatalibServiceError(result)
         if self.__debug:
             print(f"Added keyring {keyring} to {userid}")
 
-    def delete_keyring(
-        self, userid: str, keyring: str
-    ) -> None:
+    def delete_keyring(self, userid: str, keyring: str) -> None:
         """Delete the specified Keyring."""
         if self.__debug:
             print(f"Deleting {userid}/{keyring}")
@@ -123,16 +125,16 @@ class CertAdmin:
         keyring_enc = keyring.encode(self.__codepage)
 
         delete_code = 10
-        result = cpydatalib.touchKeyring(userid=userid_enc, keyring=keyring_enc, function_code = delete_code)
+        result = cpydatalib.touchKeyring(
+            userid=userid_enc, keyring=keyring_enc, function_code=delete_code
+        )
 
         if not (result == 0):
             raise DatalibServiceError(result)
         if self.__debug:
             print(f"Deleted keyring {keyring} from {userid}")
 
-    def delete_certificate(
-        self, userid: str, keyring: str, label: str
-    ) -> None:
+    def delete_certificate(self, userid: str, keyring: str, label: str) -> None:
         """Deletes a single certificate with known owner, label and keyring."""
         if self.__debug:
             print(f"Deleting certificate {label} from {userid}/{keyring}")
@@ -141,10 +143,16 @@ class CertAdmin:
         keyring_enc = keyring.encode(self.__codepage)
         label_enc = label.encode(self.__codepage)
 
-        result = cpydatalib.dataRemove(userid=userid_enc, keyring=keyring_enc, label=label_enc)
+        result = cpydatalib.dataRemove(
+            userid=userid_enc, keyring=keyring_enc, label=label_enc
+        )
 
         if not (result == 0):
-            if not (result["safReturnCode"] == 4 and result["racfReturnCode"] == 4 and result["racfReasonCode"] == 12):
+            if not (
+                result["safReturnCode"] == 4
+                and result["racfReturnCode"] == 4
+                and result["racfReasonCode"] == 12
+            ):
                 raise DatalibServiceError(result)
             self.refresh_keyring(userid=userid, keyring=keyring)
         if self.__debug:
@@ -157,29 +165,35 @@ class CertAdmin:
         label: str,
         filename: str = "",
         base_64_encoding: bool = False,
-        directory: str = os.getcwd()
+        directory: str = os.getcwd(),
     ) -> dict:
         """Exports single certificate with known owner, label and keyring."""
         if filename == "":
             filename = label
         full_path = f"{directory}/{filename}.pem"
         if self.__debug:
-            print(f"Exporting certificate information for {label} from {userid}/{keyring} to {full_path}")
+            print(
+                f"Exporting certificate information for {label} from "
+                + f"{userid}/{keyring} to {full_path}"
+            )
 
         certificate_package = self.extract_certificate(
             userid=userid,
             keyring=keyring,
             label=label,
-            base_64_encoding=base_64_encoding
+            base_64_encoding=base_64_encoding,
         )
         if os.path.exists(full_path):
-            raise FileExistsError(f"Cannot export certificate to {full_path} as this file already exists.")
+            raise FileExistsError(
+                f"Cannot export certificate to {full_path} as this file already exists."
+            )
         with open(full_path, "wb") as file:
             file.write(certificate_package["certificate"])
             file.write(certificate_package["privateKey"])
         if self.__debug:
             print(
-                f"Exported certificate information for {label} from {userid}/{keyring} to {full_path}.\n"
+                f"Exported certificate information for {label} from "
+                + f"{userid}/{keyring} to {full_path}.\n"
                 + f"Certificate: {certificate_package['certificate']}\n"
                 + f"Private Key: {certificate_package['privateKey']}\n"
             )
@@ -190,31 +204,36 @@ class CertAdmin:
         keyring: str,
         label: str,
         filepath: str,
-        base_64_encoding: bool = False
+        base_64_encoding: bool = False,
     ) -> dict:
         """Imports a single certificate into RACF with specified owner, label and keyring."""
         if not os.path.isfile(filepath):
             if not os.path.isfile(f"{os.getcwd()}/{filepath}"):
-                raise FileNotFoundError(f"Cannot find certificate at {filepath} or at {os.getcwd()}/{filepath}.")
+                raise FileNotFoundError(
+                    f"Cannot find certificate at {filepath} or at {os.getcwd()}/{filepath}."
+                )
             filepath = f"{os.getcwd()}/{filepath}"
         if self.__debug:
-            print(f"Importing certificate information to {label} under {userid}/{keyring} from {filepath}")
-        
+            print(
+                f"Importing certificate information to {label} under "
+                + f"{userid}/{keyring} from {filepath}"
+            )
+
         with open(filepath, "rb") as file:
             file_data = file.readlines()
-        
+
         if not base_64_encoding:
             certificate_data = file_data[0]
             private_key = file_data[1]
         else:
             certificate_data = base64.b64decode(file_data[1])
             private_key = base64.b64decode(file_data[4])
-        
+
         self._add_certificate(
             userid=userid,
             keyring=keyring,
             certificate_data=certificate_data,
-            private_key=private_key
+            private_key=private_key,
         )
 
         if self.__debug:
@@ -225,14 +244,13 @@ class CertAdmin:
                 + f"Private Key: {private_key}\n"
             )
 
-
     def _add_certificate(
         self,
         userid: str,
         keyring: str,
         label: str,
         certificate_data: bytes,
-        private_key: bytes
+        private_key: bytes,
     ) -> None:
         """Adds a single certificate into RACF with specified owner, label and keyring."""
         if self.__debug:
@@ -247,7 +265,7 @@ class CertAdmin:
             keyring=keyring_enc,
             label=label_enc,
             certificate=certificate_data,
-            private_key=private_key
+            private_key=private_key,
         )
 
         if not (result == 0):
@@ -258,7 +276,6 @@ class CertAdmin:
                 + f"Certificate: {certificate_data}\n"
                 + f"Private Key: {private_key}\n"
             )
-
 
     def __base_64_encode(self, data: bytes, field: str = "certificate"):
         """Encodes bytes arrays in base 64 as certificate data or fields need."""
