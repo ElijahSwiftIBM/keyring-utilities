@@ -162,9 +162,9 @@ static PyObject* listKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
   R_datalib_result_handle handle;
   R_datalib_data_abort dataAbort;
 
-  R_datalib_function getFirstFunc = {"", GETCERT_CODE, 0x80000000, 1, &getParm, NULL};
-  R_datalib_function getNextFunc = {"", GETNEXT_CODE, 0x80000000, 1, &getParm, NULL};
-  R_datalib_function abortFunc = {"", DATA_ABORT_CODE, 0x00000000, 0, &dataAbort, NULL};
+  R_datalib_function getFirstFunc = {"", GETCERT_CODE, 0x80000000, 1, &getParm};
+  R_datalib_function getNextFunc = {"", GETNEXT_CODE, 0x80000000, 1, &getParm};
+  R_datalib_function abortFunc = {"", DATA_ABORT_CODE, 0x00000000, 0, &dataAbort};
 
   memset(&buffers, 0x00, sizeof(Data_get_buffers));
   memset(&getParm, 0x00, sizeof(R_datalib_data_get));
@@ -241,7 +241,7 @@ static PyObject* dataRemove(PyObject* self, PyObject* args, PyObject *kwargs) {
     R_datalib_data_remove rem_parm;
     memset(&rem_parm, 0x00, sizeof(R_datalib_data_remove));
 
-    func = {"DATAREMOVE", DATAREMOVE_CODE, 0x00000000, 0, &rem_parm, NULL};
+    func = {"DATAREMOVE", DATAREMOVE_CODE, 0x00000000, 0, &rem_parm};
 
     rem_parm.label_len = strlen(label);
     rem_parm.label_addr = label;
@@ -275,11 +275,11 @@ static PyObject* touchKeyring(PyObject* self, PyObject* args, PyObject *kwargs) 
 
     switch(function_code){
         case NEWRING_CODE:
-            func = {"NEWRING", NEWRING_CODE, 0x00000000, 0, NULL, NULL};
+            func = {"NEWRING", NEWRING_CODE, 0x00000000, 0, NULL};
         case REFRESH_CODE:
-            func = {"REFRESH", REFRESH_CODE, 0x00000000, 0, NULL, NULL};
+            func = {"REFRESH", REFRESH_CODE, 0x00000000, 0, NULL};
         case DELRING_CODE:
-            func = {"DELRING", DELRING_CODE, 0x00000000, 0, NULL, NULL};
+            func = {"DELRING", DELRING_CODE, 0x00000000, 0, NULL};
         default:
             printf("Error: invalid function code for touchKeyring");
             return throwRdatalibException(functionCode,12,12,12);
@@ -316,7 +316,7 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
     R_datalib_data_put put_parm;
     memset(&put_parm, 0x00, sizeof(R_datalib_data_put));
 
-    func = {"DATAPUT", DATAPUT_CODE, 0x00000000, 0, &put_parm, NULL};
+    func = {"DATAPUT", DATAPUT_CODE, 0x00000000, 0, &put_parm};
 
     put_parm.Default = 0x00000000;
     put_parm.certificate_len = strlen(cert_buff);

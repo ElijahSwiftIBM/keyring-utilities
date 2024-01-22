@@ -61,7 +61,6 @@ typedef struct _R_datalib_function {
     int default_attributes;
     int parm_list_version;
     void *parmlist;
-    function_action action;
 } R_datalib_function;
 
 typedef _Packed struct _R_datalib_data_remove { // DO NOT change property positions in this struct
