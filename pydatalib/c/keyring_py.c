@@ -286,11 +286,11 @@ static PyObject* touchKeyring(PyObject* self, PyObject* args, PyObject *kwargs) 
             func = &refreshFunc;
             break;
         case DELRING_CODE:
-            func = &delringFunc;
+            func = &delRingFunc;
             break;
         default:
             printf("Error: invalid function code for touchKeyring");
-            return throwRdatalibException(functionCode,12,12,12);
+            return throwRdatalibException(function_code,12,12,12);
     }
     set_up_R_datalib_parameters(rdatalib_parms, func, userid, keyring);
     invoke_R_datalib(rdatalib_parms);
@@ -318,13 +318,12 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
     strncpy(&cert_buff, cert_buff_in, MAX_CERTIFICATE_LEN);
     strncpu(&priv_key, priv_key_in, MAX_PRIVATE_KEY_LEN);
 
-    R_datalib_function func;
     R_datalib_parm_list_64 *rdatalib_parms;
 
     R_datalib_data_put put_parm;
     memset(&put_parm, 0x00, sizeof(R_datalib_data_put));
 
-    func = {"DATAPUT", DATAPUT_CODE, 0x00000000, 0, &put_parm};
+    R_datalib_function dataPutFunc = {"DATAPUT", DATAPUT_CODE, 0x00000000, 0, &put_parm};
 
     put_parm.Default = 0x00000000;
     put_parm.certificate_len = strlen(cert_buff);
@@ -337,7 +336,7 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
     memset(put_parm.cert_userid, ' ', MAX_USERID_LEN); // fill the cert_userid field with blanks
     memcpy(put_parm.cert_userid, userid, put_parm.cert_userid_len);
 
-    set_up_R_datalib_parameters(rdatalib_parms, &func, userid, keyring);
+    set_up_R_datalib_parameters(rdatalib_parms, &dataPutFunc, userid, keyring);
     invoke_R_datalib(rdatalib_parms);
     return check_return_code(rdatalib_parms);
 }
