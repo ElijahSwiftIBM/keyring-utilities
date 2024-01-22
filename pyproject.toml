@@ -4,7 +4,7 @@
 
 [tool.poetry]
     name="pydatalib"
-    version="0.0z1"
+    version="0.1a1"
     description="Python interface to Certificates using R_Datalib RACF Callable Service."
     license = "EPL-2.0"
     authors = [

@@ -67,6 +67,7 @@ class CertAdmin:
                 result_str = "-----BEGIN PRIVATE KEY-----\n"
                 result_str = result_str + str(base64.b64encode(data))
                 result_str = result_str + "\n-----END PRIVATE KEY-----"
+            # No code reaches this case yet, but this was added for potential future use.
             case "encryptedPrivateKey":
                 result_str = "-----BEGIN ENCRYPTED PRIVATE KEY-----\n"
                 result_str = result_str + str(base64.b64encode(data))
