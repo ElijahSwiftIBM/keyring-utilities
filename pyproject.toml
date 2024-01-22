@@ -34,6 +34,7 @@
 
 [tool.poetry.dependencies]
     python = ">=3.10"
+    ebcdic = ">=1.1.1"
 
 [tool.poetry.group.dev.dependencies]
     isort = ">=5.12.0"

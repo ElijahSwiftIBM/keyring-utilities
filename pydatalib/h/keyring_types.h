@@ -29,8 +29,8 @@
 #define GETNEXT_CODE 0x02
 #define DATA_ABORT_CODE 0x03
 #define NEWRING_CODE 0x07
-#define IMPORT_CODE  0x08
-#define DELCERT_CODE 0x09
+#define DATAPUT_CODE  0x08
+#define DATAREMOVE_CODE 0x09
 #define DELRING_CODE 0x0A
 #define REFRESH_CODE 0x0B
 #define HELP_CODE  0x00
@@ -38,16 +38,6 @@
 
 #define TRUE 1
 #define FALSE 0
-
-typedef struct _Command_line_params {
-    char function[MAX_FUNCTION_LEN];
-    char userid[MAX_USERID_LEN + 1];
-    char keyring[MAX_KEYRING_LEN + 1];
-    char label[MAX_LABEL_LEN + 1];
-    char extra_arg_0[MAX_EXTRA_ARG_LEN + 1];
-    char extra_arg_1[MAX_EXTRA_ARG_LEN + 1];
-    char extra_arg_2[MAX_EXTRA_ARG_LEN + 1];
-} Command_line_parms;
 
 typedef struct _R_datalib_parm_list_64 { 
 	int num_parms;

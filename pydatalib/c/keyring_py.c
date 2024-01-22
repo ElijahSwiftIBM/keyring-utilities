@@ -37,6 +37,16 @@ static PyObject* throwRdatalibException(int function, int safRC, int racfRC, int
   );
 }
 
+// Function to check return codes and throw an RdatalibException on any failure
+void check_return_code(R_datalib_parm_list_64* p) {
+    if (p->return_code != 0 || p->RACF_return_code != 0 || p->RACF_reason_code != 0) {
+        return throwRdatalibException(p->function_code, p->return_code, p->RACF_return_code, p->RACF_reason_code);
+    }
+    else {
+        return Py_BuildValue("b", 0);
+    }
+}
+
 // Entry point to the getData() function
 static PyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
   const char * userid_in, * keyring_in, * label_in;
@@ -207,12 +217,150 @@ static PyObject* listKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
   return cert_array;
 }
 
+// Entry point to the dataRemove() function
+static PyObject* dataRemove(PyObject* self, PyObject* args, PyObject *kwargs) {
+    const char * userid_in, * keyring_in, * label_in;
+    char userid[MAX_USERID_LEN + 1] = "";
+    char keyring[MAX_KEYRING_LEN + 1] = "";
+    char label[MAX_LABEL_LEN + 1] = "";
+    PyObject *buffer_cert, *buffer_key;
+
+    static char *kwlist[] = {"userid", "keyring", "label", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|yyy", kwlist, &userid_in, &keyring_in, &label_in)) {
+        return NULL;
+    }
+
+    strncpy(&userid, userid_in, MAX_USERID_LEN);
+    strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
+    strncpy(&label, label_in, MAX_LABEL_LEN);
+
+    R_datalib_function func;
+    R_datalib_parm_list64 *rdatalib_parms;
+
+    R_datalib_data_remove rem_parm;
+    memset(&rem_parm, 0x00, sizeof(R_datalib_data_remove));
+
+    func = {"DATAREMOVE", DATAREMOVE_CODE, 0x00000000, 0, &rem_parm, NULL};
+
+    rem_parm.label_len = strlen(label);
+    rem_parm.label_addr = label;
+    rem_parm.CERT_userid_len = strlen(userid);
+    memset(rem_parm.CERT_userid, ' ', MAX_USERID_LEN); // fill the CERT_userid field with blanks
+    memcpy(rem_parm.CERT_userid, userid, rem_parm.CERT_userid_len);
+
+    set_up_R_datalib_parameters(rdatalib_parms, &func, userid, keyring);
+    invoke_R_datalib(rdatalib_parms);
+    return check_return_code(rdatalib_parms);
+}
+
+// Entry point to the touchKeyring() function
+static PyObject* touchKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
+    const char * userid_in, * keyring_in, * function_code;
+    char userid[MAX_USERID_LEN + 1] = "";
+    char keyring[MAX_KEYRING_LEN + 1] = "";
+    PyObject *buffer_cert, *buffer_key;
+
+    static char *kwlist[] = {"userid", "keyring", "function_code", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|yyb", kwlist, &userid_in, &keyring_in, &function_code)) {
+        return NULL;
+    }
+
+    strncpy(&userid, userid_in, MAX_USERID_LEN);
+    strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
+
+    R_datalib_function func;
+    R_datalib_parm_list64 *rdatalib_parms;
+
+    switch(function_code){
+        case NEWRING_CODE:
+            func = {"NEWRING", NEWRING_CODE, 0x00000000, 0, NULL, NULL};
+        case REFRESH_CODE:
+            func = {"REFRESH", REFRESH_CODE, 0x00000000, 0, NULL, NULL};
+        case DELRING_CODE:
+            func = {"DELRING", DELRING_CODE, 0x00000000, 0, NULL, NULL};
+        default:
+            printf("Error: invalid function code for touchKeyring");
+            return throwRdatalibException(functionCode,12,12,12);
+    }
+    set_up_R_datalib_parameters(rdatalib_parms, &func, userid, keyring);
+    invoke_R_datalib(rdatalib_parms);
+    return check_return_code(rdatalib_parms);
+}
+
+// Entry point to the dataPut() function
+static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
+    const char * userid_in, * keyring_in, * label_in, * cert_buff_in, * priv_key_in;
+    char userid[MAX_USERID_LEN + 1] = "";
+    char keyring[MAX_KEYRING_LEN + 1] = "";
+    char label[MAX_LABEL_LEN + 1] = "";
+    char cert_buff[MAX_CERTIFICATE_LEN + 1] = "";
+    char priv_key[MAX_PRIVATE_KEY_LEN + 1] = "";
+
+    static char *kwlist[] = {"userid", "keyring", "label", "certificate", "private_key", NULL};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|yyyyy", kwlist, &userid_in, &keyring_in, &label_in, &cert_buff_in, &priv_key_in)) {
+        return NULL;
+    }
+
+    strncpy(&userid, userid_in, MAX_USERID_LEN);
+    strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
+    strncpy(&label, label_in, MAX_LABEL_LEN);
+    strncpy(&cert_buff, cert_buff_in, MAX_CERTIFICATE_LEN);
+    strncpu(&priv_key, priv_key_in, MAX_PRIVATE_KEY_LEN);
+
+    R_datalib_function func;
+    R_datalib_parm_list64 *rdatalib_parms;
+
+    R_datalib_data_put put_parm;
+    memset(&put_parm, 0x00, sizeof(R_datalib_data_put));
+
+    func = {"DATAPUT", DATAPUT_CODE, 0x00000000, 0, &put_parm, NULL};
+
+    put_parm.Default = 0x00000000;
+    put_parm.certificate_len = strlen(cert_buff);
+    put_parm.certificate_ptr = cert_buff;
+    put_parm.private_key_len = strlen(priv_key);
+    put_parm.private_key_ptr = priv_key;
+    put_parm.label_len = strlen(label);
+    put_parm.label_ptr = label;
+    put_parm.cert_userid_len = strlen(userid);
+    memset(put_parm.cert_userid, ' ', MAX_USERID_LEN); // fill the cert_userid field with blanks
+    memcpy(put_parm.cert_userid, userid, put_parm.cert_userid_len);
+
+    set_up_R_datalib_parameters(rdatalib_parms, &func, userid, keyring);
+    invoke_R_datalib(rdatalib_parms);
+    return check_return_code(rdatalib_parms);
+}
+
 //Method docstrings
 static char getDataDocs[] =
-   "getData(): Returns something and return and reason codes from the R_Datalib RACF Callable Service.\n";
+   "getData(userid, keyring, label): Obtains certificate data (including private key) and "
+   "returns this information in a python dictionary. If R_datalib encounters a failure, "
+   "returns return and reasoun codes from R_Datalib RACF Callable Service.\n";
 
 static char listKeyringDocs[] =
-   "listKeyring(): Returns something and return and reason codes from the R_Datalib RACF Callable Service.\n";
+   "listKeyring(userid, keyring): Obtains certificate data for all certificates on the "
+   "keyring and returns this information in a list of python dictionaries. If R_datalib "
+   "encounters a failure, returns return and reasoun codes from R_Datalib RACF Callable "
+   "Service.\n";
+
+static char dataRemoveDocs[] =
+   "dataRemove(userid, keyring, label): Deletes the specified certificate from RACF. If "
+   "R_datalib encounters a failure, returns return and reasoun codes from R_Datalib "
+   "RACF Callable Service.\n";
+
+static char touchKeyringDocs[] =
+   "touchKeyring(userid, keyring, function_code): Touches a specific keyring to perform "
+   "a specified function (x'07' Create this keyring, x'0B' Refresh this keyring, x'0A' "
+   "Delete this keyring). If R_datalib encounters a failure, returns return and reason "
+   "codes from R_Datalib RACF Callable Service.\n";
+
+static char dataPutDocs[] =
+   "dataPut(userid, keyring, label, certificate, private_key): Adds the specified "
+   "certificate information to RACF with the spefified label. If R_datalib encounters "
+   "a failure, returns return and reasoun codes from R_Datalib RACF Callable Service.\n";
 
 // Method definition
 static PyMethodDef cpydatalib_methods[] = {
@@ -220,6 +368,12 @@ static PyMethodDef cpydatalib_methods[] = {
       METH_VARARGS | METH_KEYWORDS, getDataDocs},
    {"listKeyring", (PyCFunction)listKeyring,
       METH_VARARGS | METH_KEYWORDS, listKeyringDocs},
+   {"dataRemove", (PyCFunction)dataRemove,
+      METH_VARARGS | METH_KEYWORDS, dataRemoveDocs},
+   {"touchKeyring", (PyCFunction)touchKeyring,
+      METH_VARARGS | METH_KEYWORDS, touchKeyringDocs},
+   {"dataPut", (PyCFunction)dataPut,
+      METH_VARARGS | METH_KEYWORDS, dataPutDocs},
   {NULL}
 };
 
