@@ -158,7 +158,7 @@ class CertAdmin:
         if self.__debug:
             print(f"Deleted certificate {label} from {userid}/{keyring}")
 
-    def extport_certificate(
+    def export_certificate(
         self,
         userid: str,
         keyring: str,
