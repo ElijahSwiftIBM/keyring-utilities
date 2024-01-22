@@ -22,11 +22,11 @@ def build(setup_kwargs: dict):
                 Extension(
                     "cpydatalib",
                     sources=[
-                        "src/c/keyring_py.c",
-                        "src/c/keyring_get.c",
-                        "src/c/keyring_service.c",
+                        "pydatalib/c/keyring_py.c",
+                        "pydatalib/c/keyring_get.c",
+                        "pydatalib/c/keyring_service.c",
                     ],
-                    include_dirs=["src/h"],
+                    include_dirs=["pydatalib/h"],
                     define_macros=[("_AE_BIMODAL", "1")],
                     library_dirs=["/usr/lib/"],
                     extra_compile_args=[
