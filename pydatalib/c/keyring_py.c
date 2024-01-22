@@ -313,7 +313,7 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
     strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
     strncpy(&label, label_in, MAX_LABEL_LEN);
     strncpy(&cert_buff, cert_buff_in, MAX_CERTIFICATE_LEN);
-    strncpu(&priv_key, priv_key_in, MAX_PRIVATE_KEY_LEN);
+    strncpy(&priv_key, priv_key_in, MAX_PRIVATE_KEY_LEN);
 
     R_datalib_parm_list_64 *rdatalib_parms;
 
