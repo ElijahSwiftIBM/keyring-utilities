@@ -12,6 +12,8 @@
 #ifndef _keyring_types
 #define _keyring_types
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 #include <gskcms.h>
 
 
