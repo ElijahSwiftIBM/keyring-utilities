@@ -271,36 +271,28 @@ static PyObject* touchKeyring(PyObject* self, PyObject* args, PyObject *kwargs) 
     strncpy(&userid, userid_in, MAX_USERID_LEN);
     strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
 
-    R_datalib_function func;
+    R_datalib_function *func;
     R_datalib_parm_list_64 *rdatalib_parms;
+
+    R_datalib_function newRingFunc = {"NEWRING", NEWRING_CODE, 0x00000000, 0, NULL};
+    R_datalib_function refreshFunc = {"REFRESH", REFRESH_CODE, 0x00000000, 0, NULL};
+    R_datalib_function delRingFunc = {"DELRING", DELRING_CODE, 0x00000000, 0, NULL};
 
     switch(function_code){
         case NEWRING_CODE:
-            func.name = "NEWRING";
-            func.code = NEWRING_CODE;
-            func.default_attributes = 0x00000000;
-            func.parm_list_version = 0;
-            func.parmlist = NULL;
+            func = &newRingFunc;
             break;
         case REFRESH_CODE:
-            func.name = "REFRESH";
-            func.code = REFRESH_CODE;
-            func.default_attributes = 0x00000000;
-            func.parm_list_version = 0;
-            func.parmlist = NULL;
+            func = &refreshFunc;
             break;
         case DELRING_CODE:
-            func.name = "DELRING";
-            func.code = DELRING_CODE;
-            func.default_attributes = 0x00000000;
-            func.parm_list_version = 0;
-            func.parmlist = NULL;
+            func = &delringFunc;
             break;
         default:
             printf("Error: invalid function code for touchKeyring");
             return throwRdatalibException(functionCode,12,12,12);
     }
-    set_up_R_datalib_parameters(rdatalib_parms, &func, userid, keyring);
+    set_up_R_datalib_parameters(rdatalib_parms, func, userid, keyring);
     invoke_R_datalib(rdatalib_parms);
     return check_return_code(rdatalib_parms);
 }
