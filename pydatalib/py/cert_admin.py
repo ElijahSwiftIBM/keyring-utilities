@@ -75,11 +75,11 @@ class CertAdmin:
             for certificate in result:
                 print(
                     f"Label: {certificate['label']}\n"
-                    + f"Owner: {certificate['owner']}"
-                    + f"Usage: {certificate['usage']}"
-                    + f"Status: {certificate['status']}"
-                    + f"Default: {certificate['default']}"
-                    + f"Certificate: {certificate['certificate']}"
+                    + f"Owner: {certificate['owner']}\n"
+                    + f"Usage: {certificate['usage']}\n"
+                    + f"Status: {certificate['status']}\n"
+                    + f"Default: {certificate['default']}\n"
+                    + f"Certificate: {certificate['certificate']}\n"
                 )
         return result
 
