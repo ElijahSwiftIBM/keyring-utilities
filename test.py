@@ -6,7 +6,7 @@ test1 = cert_admin.extract_certificate(userid="ESWIFT",keyring="ETESTRNG",label=
 test1b64 = cert_admin.extract_certificate(userid="ESWIFT",keyring="ETESTRNG",label="ElijahTestCert04", base_64_encoding=True)
 
 test2 = cert_admin.list_keyring(userid="ESWIFT",keyring="ETESTRNG")
-test2b64 = cert_admin.list_keyring(userid="ESWIFT",keyring="ETESTRNG")
+test2b64 = cert_admin.list_keyring(userid="ESWIFT",keyring="ETESTRNG", base_64_encoding=True)
 
 print(test1)
 print("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n")

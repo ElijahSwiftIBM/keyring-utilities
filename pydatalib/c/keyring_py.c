@@ -55,10 +55,6 @@ static PyObject* getData(PyObject* self, PyObject* args, PyObject *kwargs) {
   strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
   strncpy(&label, label_in, MAX_LABEL_LEN);
 
-  printf("Passed userid:  '%s' | Length: '%d'\nCurrent userid:  '%s' | Length: '%d'\n", userid_in, strlen(userid_in), userid, strlen(userid));
-  printf("Passed keyring: '%s' | Length: '%d'\nCurrent keyring: '%s' | Length: '%d'\n", keyring_in, strlen(keyring_in), keyring, strlen(keyring));
-  printf("Passed label:   '%s' | Length: '%d'\nCurrent label:   '%s' | Length: '%d'\n", label_in, strlen(label_in), label, strlen(label));
-
   Data_get_buffers buffers;
   memset(&buffers, 0x00, sizeof(Data_get_buffers));
   Return_codes ret_codes;
@@ -147,9 +143,6 @@ static PyObject* listKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
 
   strncpy(&userid, userid_in, MAX_USERID_LEN);
   strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
-
-  printf("Passed userid:  '%s' | Length: '%d'\nCurrent userid:  '%s' | Length: '%d'\n", userid_in, strlen(userid_in), userid, strlen(userid));
-  printf("Passed keyring: '%s' | Length: '%d'\nCurrent keyring: '%s' | Length: '%d'\n", keyring_in, strlen(keyring_in), keyring, strlen(keyring));
 
   int origMode;
   int rc = 0;
