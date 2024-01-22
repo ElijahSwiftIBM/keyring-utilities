@@ -241,7 +241,7 @@ static PyObject* dataRemove(PyObject* self, PyObject* args, PyObject *kwargs) {
     R_datalib_data_remove rem_parm;
     memset(&rem_parm, 0x00, sizeof(R_datalib_data_remove));
 
-    R_datalib_function dataRemoveFunc = {"DATAREMOVE", DATAREMOVE_CODE, 0x00000000, 0, &remParm};
+    R_datalib_function dataRemoveFunc = {"DATAREMOVE", DATAREMOVE_CODE, 0x00000000, 0, &rem_parm};
 
 
     rem_parm.label_len = strlen(label);
