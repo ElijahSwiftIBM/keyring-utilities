@@ -38,7 +38,7 @@ static PyObject* throwRdatalibException(int function, int safRC, int racfRC, int
 }
 
 // Function to check return codes and throw an RdatalibException on any failure
-void check_return_code(R_datalib_parm_list_64* p) {
+static PyObject* check_return_code(R_datalib_parm_list_64* p) {
     if (p->return_code != 0 || p->RACF_return_code != 0 || p->RACF_reason_code != 0) {
         return throwRdatalibException(p->function_code, p->return_code, p->RACF_return_code, p->RACF_reason_code);
     }
