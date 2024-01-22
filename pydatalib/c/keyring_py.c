@@ -17,6 +17,7 @@
 #include <unistd.h>
 
 #include "keyring_get.h"
+#include "keyring_types.h"
 
 #define MSG_BUF_LEN 256
 #define GET_DATA_NUM_ARG 4
@@ -276,10 +277,13 @@ static PyObject* touchKeyring(PyObject* self, PyObject* args, PyObject *kwargs) 
     switch(function_code){
         case NEWRING_CODE:
             func = {"NEWRING", NEWRING_CODE, 0x00000000, 0, NULL};
+            break;
         case REFRESH_CODE:
             func = {"REFRESH", REFRESH_CODE, 0x00000000, 0, NULL};
+            break;
         case DELRING_CODE:
             func = {"DELRING", DELRING_CODE, 0x00000000, 0, NULL};
+            break;
         default:
             printf("Error: invalid function code for touchKeyring");
             return throwRdatalibException(functionCode,12,12,12);
