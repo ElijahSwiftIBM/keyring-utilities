@@ -148,7 +148,8 @@ typedef _Packed struct _R_datalib_data_put { // DO NOT change property positions
 
 void invoke_R_datalib(R_datalib_parm_list_64*);
 void set_up_R_datalib_parameters(R_datalib_parm_list_64* , R_datalib_function* , char* ,char* );
-void check_return_code(R_datalib_parm_list_64*);
 void dump_certificate_and_key(Data_get_buffers*);
 
+static PyObject* throwRdatalibException(int, int, int, int);
+static PyObject* check_return_code(R_datalib_parm_list_64*);
 #endif
