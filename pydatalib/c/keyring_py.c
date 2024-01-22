@@ -17,7 +17,6 @@
 #include <unistd.h>
 
 #include "keyring_get.h"
-#include "keyring_types.h"
 
 #define MSG_BUF_LEN 256
 #define GET_DATA_NUM_ARG 4
@@ -237,7 +236,7 @@ static PyObject* dataRemove(PyObject* self, PyObject* args, PyObject *kwargs) {
     strncpy(&label, label_in, MAX_LABEL_LEN);
 
     R_datalib_function func;
-    R_datalib_parm_list64 *rdatalib_parms;
+    R_datalib_parm_list_64 *rdatalib_parms;
 
     R_datalib_data_remove rem_parm;
     memset(&rem_parm, 0x00, sizeof(R_datalib_data_remove));
@@ -272,7 +271,7 @@ static PyObject* touchKeyring(PyObject* self, PyObject* args, PyObject *kwargs) 
     strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
 
     R_datalib_function func;
-    R_datalib_parm_list64 *rdatalib_parms;
+    R_datalib_parm_list_64 *rdatalib_parms;
 
     switch(function_code){
         case NEWRING_CODE:
@@ -315,7 +314,7 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
     strncpu(&priv_key, priv_key_in, MAX_PRIVATE_KEY_LEN);
 
     R_datalib_function func;
-    R_datalib_parm_list64 *rdatalib_parms;
+    R_datalib_parm_list_64 *rdatalib_parms;
 
     R_datalib_data_put put_parm;
     memset(&put_parm, 0x00, sizeof(R_datalib_data_put));
