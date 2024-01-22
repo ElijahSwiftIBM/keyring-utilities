@@ -241,7 +241,11 @@ static PyObject* dataRemove(PyObject* self, PyObject* args, PyObject *kwargs) {
     R_datalib_data_remove rem_parm;
     memset(&rem_parm, 0x00, sizeof(R_datalib_data_remove));
 
-    func = {"DATAREMOVE", DATAREMOVE_CODE, 0x00000000, 0, &rem_parm};
+    func.name = "DATAREMOVE";
+    func.code = DATAREMOVE_CODE;
+    func.default_attributes = 0x00000000;
+    func.parm_list_version = 0;
+    func.parmlist = &rem_parm;
 
     rem_parm.label_len = strlen(label);
     rem_parm.label_addr = label;
@@ -275,13 +279,25 @@ static PyObject* touchKeyring(PyObject* self, PyObject* args, PyObject *kwargs) 
 
     switch(function_code){
         case NEWRING_CODE:
-            func = {"NEWRING", NEWRING_CODE, 0x00000000, 0, NULL};
+            func.name = "NEWRING";
+            func.code = NEWRING_CODE;
+            func.default_attributes = 0x00000000;
+            func.parm_list_version = 0;
+            func.parmlist = NULL;
             break;
         case REFRESH_CODE:
-            func = {"REFRESH", REFRESH_CODE, 0x00000000, 0, NULL};
+            func.name = "REFRESH";
+            func.code = REFRESH_CODE;
+            func.default_attributes = 0x00000000;
+            func.parm_list_version = 0;
+            func.parmlist = NULL;
             break;
         case DELRING_CODE:
-            func = {"DELRING", DELRING_CODE, 0x00000000, 0, NULL};
+            func.name = "DELRING";
+            func.code = DELRING_CODE;
+            func.default_attributes = 0x00000000;
+            func.parm_list_version = 0;
+            func.parmlist = NULL;
             break;
         default:
             printf("Error: invalid function code for touchKeyring");
