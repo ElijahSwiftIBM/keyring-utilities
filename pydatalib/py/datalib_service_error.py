@@ -16,7 +16,7 @@ class DatalibServiceError(Exception):
 
     def evaluate_return_codes(self):
         self.message = (
-            "Security request made to IRRSMO00 failed.\n"
+            "Security request made to IRRSDL64 failed.\n"
             + f"Function Code: {self.return_codes['functionCode']}\n"
             + f"SAF Return Code: {self.return_codes['safReturnCode']}\n"
             + f"RACF Return Code: {self.return_codes['racfReturnCode']}\n"
