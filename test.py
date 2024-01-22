@@ -21,12 +21,13 @@ cert_admin.list_keyring(userid=user_name, keyring=key_ring_1)
 cert_admin.list_keyring(userid=user_name, keyring=key_ring_1, base_64_encoding=True)
 
 cert_admin.export_certificate(
-    userid=user_name, keyring=key_ring_1, filename="testcert.pem"
+    userid=user_name, keyring=key_ring_1, label="ElijahTestCert05", filename="testcert.pem"
 )
 cert_admin.export_certificate(
     userid=user_name,
     keyring=key_ring_1,
     base_64_encoding=True,
+    label="ElijahTestCert05",
     filename="testcertb64.pem",
 )
 
