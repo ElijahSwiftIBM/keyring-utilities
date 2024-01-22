@@ -31,9 +31,9 @@ static PyObject* throwRdatalibException(int function, int safRC, int racfRC, int
   return Py_BuildValue(
     "{s:B,s:B,s:B,s:B}",
     "functionCode", function,
-    "SafReturnCode", safRC,
-    "RacfReturnCode", racfRC,
-    "RacfReasonCode", racfRSN
+    "safReturnCode", safRC,
+    "racfReturnCode", racfRC,
+    "racfReasonCode", racfRSN
   );
 }
 
