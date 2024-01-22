@@ -241,11 +241,8 @@ static PyObject* dataRemove(PyObject* self, PyObject* args, PyObject *kwargs) {
     R_datalib_data_remove rem_parm;
     memset(&rem_parm, 0x00, sizeof(R_datalib_data_remove));
 
-    func.name = "DATAREMOVE";
-    func.code = DATAREMOVE_CODE;
-    func.default_attributes = 0x00000000;
-    func.parm_list_version = 0;
-    func.parmlist = &rem_parm;
+    R_datalib_function dataRemoveFunc = {"DATAREMOVE", DATAREMOVE_CODE, 0x00000000, 0, &remParm};
+
 
     rem_parm.label_len = strlen(label);
     rem_parm.label_addr = label;
@@ -253,7 +250,7 @@ static PyObject* dataRemove(PyObject* self, PyObject* args, PyObject *kwargs) {
     memset(rem_parm.CERT_userid, ' ', MAX_USERID_LEN); // fill the CERT_userid field with blanks
     memcpy(rem_parm.CERT_userid, userid, rem_parm.CERT_userid_len);
 
-    set_up_R_datalib_parameters(rdatalib_parms, &func, userid, keyring);
+    set_up_R_datalib_parameters(rdatalib_parms, &dataRemoveFunc, userid, keyring);
     invoke_R_datalib(rdatalib_parms);
     return check_return_code(rdatalib_parms);
 }
