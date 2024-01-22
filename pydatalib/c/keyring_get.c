@@ -18,7 +18,7 @@ void get_data(char *userid, char *keyring, char *label , Data_get_buffers *buffe
     R_datalib_result_handle handle;
     memset(&handle, 0x00, sizeof(R_datalib_result_handle));
 
-    R_datalib_function function = {"", GETCERT_CODE, 0x80000000, 0, &get_parm, NULL};
+    R_datalib_function function = {"", GETCERT_CODE, 0x80000000, 0, &get_parm};
 
     // Configure result handle. Request a certificate with a specific label
 
@@ -63,7 +63,6 @@ void get_data(char *userid, char *keyring, char *label , Data_get_buffers *buffe
     abort_function.default_attributes = 0;
     abort_function.parm_list_version = 0;
     abort_function.parmlist = &data_abort;
-    abort_function.action = NULL;
 
     set_up_R_datalib_parameters(&rdatalib_parms, &abort_function, userid, keyring);
     invoke_R_datalib(&rdatalib_parms);
