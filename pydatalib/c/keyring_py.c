@@ -304,9 +304,6 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
     char cert_buff[MAX_CERTIFICATE_LEN + 1] = "";
     char priv_key[MAX_PRIVATE_KEY_LEN + 1] = "";
 
-    cert_buff_in = malloc(MAX_CERTIFICATE_LEN+1);
-    priv_key_in = malloc(MAX_PRIVATE_KEY_LEN+1);
-
     static char *kwlist[] = {"userid", "keyring", "label", "certificate", "private_key", NULL};
 
     if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|yyyy#y#", kwlist, &userid_in, &keyring_in, &label_in, &cert_buff_in, &priv_key_in)) {
@@ -325,9 +322,6 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
     strncpy(&priv_key, priv_key_in, MAX_PRIVATE_KEY_LEN);
     printf('copied private key\n');
 
-    free(cert_buff_in);
-    free(priv_key_in);
-    
     R_datalib_parm_list_64 rdatalib_parms;
 
     R_datalib_data_put put_parm;
