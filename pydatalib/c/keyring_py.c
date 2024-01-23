@@ -306,7 +306,7 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
 
     static char *kwlist[] = {"userid", "keyring", "label", "certificate", "private_key", NULL};
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|yyyyy", kwlist, &userid_in, &keyring_in, &label_in, &cert_buff_in, &priv_key_in)) {
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|yyyy*y*", kwlist, &userid_in, &keyring_in, &label_in, &cert_buff_in, &priv_key_in)) {
         return NULL;
     }
 
