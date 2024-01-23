@@ -43,8 +43,8 @@ class CertAdmin:
         if self.__debug:
             print(
                 f"Certificate information for {label} from {userid}/{keyring}:\n"
-                + f"Certificate: {result['certificate']}\n"
-                + f"Private Key: {result['privateKey']}\n"
+                + f"Certificate: \n{result['certificate']}\n"
+                + f"Private Key: \n{result['privateKey']}\n"
             )
         return result
 
@@ -79,7 +79,7 @@ class CertAdmin:
                     + f"Usage: {certificate['usage']}\n"
                     + f"Status: {certificate['status']}\n"
                     + f"Default: {certificate['default']}\n"
-                    + f"Certificate: {certificate['certificate']}\n"
+                    + f"Certificate: \n{certificate['certificate']}\n"
                 )
         return result
 
@@ -187,15 +187,18 @@ class CertAdmin:
             raise FileExistsError(
                 f"Cannot export certificate to {full_path} as this file already exists."
             )
-        with open(full_path, "wb") as file:
-            file.write(certificate_package["certificate"])
-            file.write(certificate_package["privateKey"])
+        if base_64_encoding:
+            file = open(full_path, "wb")
+        else:
+            file = open(full_path, "w")
+        file.write(certificate_package["certificate"])
+        file.write(certificate_package["privateKey"])
         if self.__debug:
             print(
                 f"Exported certificate information for {label} from "
                 + f"{userid}/{keyring} to {full_path}.\n"
-                + f"Certificate: {certificate_package['certificate']}\n"
-                + f"Private Key: {certificate_package['privateKey']}\n"
+                + f"Certificate: \n{certificate_package['certificate']}\n"
+                + f"Private Key: \n{certificate_package['privateKey']}\n"
             )
 
     def import_certificate(
@@ -240,8 +243,8 @@ class CertAdmin:
             print(
                 f"Added certificate information to {label} under {userid}/{keyring}\n"
                 + f"Base 64 Encoding: {base_64_encoding}\n"
-                + f"Certificate: {certificate_data}\n"
-                + f"Private Key: {private_key}\n"
+                + f"Certificate: \n{certificate_data}\n"
+                + f"Private Key: \n{private_key}\n"
             )
 
     def _add_certificate(
@@ -273,8 +276,8 @@ class CertAdmin:
         if self.__debug:
             print(
                 f"Added certificate information to {label} under {userid}/{keyring}\n"
-                + f"Certificate: {certificate_data}\n"
-                + f"Private Key: {private_key}\n"
+                + f"Certificate: \n{certificate_data}\n"
+                + f"Private Key: \n{private_key}\n"
             )
 
     def __base_64_encode(self, data: bytes, field: str = "certificate"):

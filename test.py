@@ -37,13 +37,13 @@ cert_admin.import_certificate(
     userid=user_name,
     keyring=key_ring_2,
     label="ElijahImpCertDer01",
-    filepath="testcert.pem",
+    filepath="testcert",
 )
 cert_admin.import_certificate(
     userid=user_name,
     keyring=key_ring_2,
     label="ElijahImpCertB6401",
-    filepath="testcertb64.pem",
+    filepath="testcertb64",
     base_64_encoding=True,
 )
 
