@@ -258,8 +258,11 @@ class CertAdmin:
     ) -> None:
         """Adds a single certificate into RACF with specified owner, label and keyring."""
         if self.__debug:
-            print(f"Adding certificate information to {label} under {userid}/{keyring}")
-
+            print(
+                f"Adding certificate information to {label} under {userid}/{keyring}\n"
+                + f"Certificate: \n{certificate_data}\n"
+                + f"Private Key: \n{private_key}\n"
+            )
         userid_enc = userid.encode(self.__codepage)
         keyring_enc = keyring.encode(self.__codepage)
         label_enc = label.encode(self.__codepage)

@@ -31,7 +31,7 @@ cert_admin.export_certificate(
     filename="testcertb64",
 )
 
-cert_admin.add_keyring(userid=user_name, keyring=key_ring_2)
+#cert_admin.add_keyring(userid=user_name, keyring=key_ring_2)
 
 cert_admin.import_certificate(
     userid=user_name,
