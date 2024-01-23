@@ -254,7 +254,8 @@ static PyObject* dataRemove(PyObject* self, PyObject* args, PyObject *kwargs) {
 
 // Entry point to the touchKeyring() function
 static PyObject* touchKeyring(PyObject* self, PyObject* args, PyObject *kwargs) {
-    const char * userid_in, * keyring_in, * function_code;
+    const char * userid_in, * keyring_in;
+    const uint8_t function_code;
     char userid[MAX_USERID_LEN + 1] = "";
     char keyring[MAX_KEYRING_LEN + 1] = "";
     PyObject *buffer_cert, *buffer_key;

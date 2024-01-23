@@ -285,16 +285,16 @@ class CertAdmin:
         match field:
             case "certificate":
                 result_str = "-----BEGIN CERTIFICATE-----\n"
-                result_str = result_str + str(base64.b64encode(data))
+                result_str = result_str + base64.b64encode(data).decode("utf-8")
                 result_str = result_str + "\n-----END CERTIFICATE-----\n"
             case "privateKey":
                 result_str = "-----BEGIN PRIVATE KEY-----\n"
-                result_str = result_str + str(base64.b64encode(data))
+                result_str = result_str + base64.b64encode(data).decode("utf-8")
                 result_str = result_str + "\n-----END PRIVATE KEY-----\n"
             # No code reaches this case yet, but this was added for potential future use.
             case "encryptedPrivateKey":
                 result_str = "-----BEGIN ENCRYPTED PRIVATE KEY-----\n"
-                result_str = result_str + str(base64.b64encode(data))
+                result_str = result_str + base64.b64encode(data).decode("utf-8")
                 result_str = result_str + "\n-----END ENCRYPTED PRIVATE KEY-----\n"
             case _:
                 result_str = str(base64.b64encode(data))
