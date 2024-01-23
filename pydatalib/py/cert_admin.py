@@ -224,6 +224,12 @@ class CertAdmin:
 
         with open(filepath, "rb") as file:
             file_data = file.readlines()
+            file_data_nolines = file.read()
+
+        if self.__debug:
+            print(file_data)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print(file_data_nolines)
 
         if not base_64_encoding:
             certificate_data = file_data[0]
