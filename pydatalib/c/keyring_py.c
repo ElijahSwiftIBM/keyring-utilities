@@ -310,11 +310,17 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
         return NULL;
     }
 
+    printf('pasred args\n');
     strncpy(&userid, userid_in, MAX_USERID_LEN);
+    printf('copied userid\n');
     strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
+    printf('copied keyring\n');
     strncpy(&label, label_in, MAX_LABEL_LEN);
+    printf('copied label\n');
     strncpy(&cert_buff, cert_buff_in, MAX_CERTIFICATE_LEN);
+    printf('copied certificate data\n');
     strncpy(&priv_key, priv_key_in, MAX_PRIVATE_KEY_LEN);
+    printf('copied private key\n');
 
     R_datalib_parm_list_64 rdatalib_parms;
 
