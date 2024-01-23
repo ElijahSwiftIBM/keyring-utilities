@@ -134,8 +134,8 @@ class CertAdmin:
         if self.__debug:
             print(f"Deleted keyring {keyring} from {userid}")
 
-    def delete_certificate(self, userid: str, keyring: str, label: str) -> None:
-        """Deletes a single certificate with known owner, label and keyring."""
+    def remove_certificate(self, userid: str, keyring: str, label: str) -> None:
+        """Removes a single certificate with known owner and label from a chosen keyring."""
         if self.__debug:
             print(f"Deleting certificate {label} from {userid}/{keyring}")
 
@@ -255,7 +255,7 @@ class CertAdmin:
                 + f"Private Key: \n{private_key}\n"
             )
 
-    def _add_certificate(
+    def add_certificate(
         self,
         userid: str,
         keyring: str,
