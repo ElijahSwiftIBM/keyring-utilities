@@ -5,7 +5,7 @@ cert_admin = pydatalib.CertAdmin(debug=True)
 
 user_name = "ESWIFT"
 key_ring_1 = "ETESTRNG"
-key_ring_2 = "BTESTRNG"
+key_ring_2 = "ETESTRG1"
 
 cert_admin.extract_certificate(
     userid=user_name, keyring=key_ring_1, label="ElijahTestCert04"

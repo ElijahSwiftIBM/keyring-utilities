@@ -235,6 +235,7 @@ class CertAdmin:
         self._add_certificate(
             userid=userid,
             keyring=keyring,
+            label=label,
             certificate_data=certificate_data,
             private_key=private_key,
         )
