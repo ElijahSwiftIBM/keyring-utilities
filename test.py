@@ -20,40 +20,15 @@ cert_admin.extract_certificate(
 cert_admin.list_keyring(userid=user_name, keyring=key_ring_1)
 cert_admin.list_keyring(userid=user_name, keyring=key_ring_1, base_64_encoding=True)
 
-cert_admin.export_certificate(
-    userid=user_name, keyring=key_ring_1, label="ElijahTestCert05", filename="testcert"
-)
-cert_admin.export_certificate(
-    userid=user_name,
-    keyring=key_ring_1,
-    base_64_encoding=True,
-    label="ElijahTestCert05",
-    filename="testcertb64",
-)
-
 #cert_admin.add_keyring(userid=user_name, keyring=key_ring_2)
-
-cert_admin.import_certificate(
-    userid=user_name,
-    keyring=key_ring_2,
-    label="ElijahImpCertDer01",
-    filepath="testcert.pem",
-)
-cert_admin.import_certificate(
-    userid=user_name,
-    keyring=key_ring_2,
-    label="ElijahImpCertB6401",
-    filepath="testcertb64.pem",
-    base_64_encoding=True,
-)
 
 cert_admin.list_keyring(userid=user_name, keyring=key_ring_2)
 cert_admin.list_keyring(userid=user_name, keyring=key_ring_2, base_64_encoding=True)
 
 cert_admin.delete_certificate(
-    userid=user_name, keyring=key_ring_2, label="ElijahImpCertDer01"
+    userid=user_name, keyring=key_ring_2, label="ElijahTestCert05"
 )
 
-cert_admin.list_keyring(userid=user_name, keyring=key_ring_2, base_64_encoding=True)
+cert_admin.list_keyring(userid=user_name, keyring=key_ring_1, base_64_encoding=True)
 
 cert_admin.delete_keyring(userid=user_name, keyring=key_ring_2)

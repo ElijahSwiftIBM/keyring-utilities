@@ -193,6 +193,7 @@ class CertAdmin:
             file = open(full_path, "wb")
         file.write(certificate_package["certificate"])
         file.write(certificate_package["privateKey"])
+        file.close()
         if self.__debug:
             print(
                 f"Exported certificate information for {label} from "
