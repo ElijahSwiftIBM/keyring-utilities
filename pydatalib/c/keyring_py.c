@@ -233,7 +233,7 @@ static PyObject* dataRemove(PyObject* self, PyObject* args, PyObject *kwargs) {
     strncpy(&label, label_in, MAX_LABEL_LEN);
 
     R_datalib_function func;
-    R_datalib_parm_list_64 *rdatalib_parms;
+    R_datalib_parm_list_64 rdatalib_parms;
 
     R_datalib_data_remove rem_parm;
     memset(&rem_parm, 0x00, sizeof(R_datalib_data_remove));
@@ -247,9 +247,9 @@ static PyObject* dataRemove(PyObject* self, PyObject* args, PyObject *kwargs) {
     memset(rem_parm.CERT_userid, ' ', MAX_USERID_LEN); // fill the CERT_userid field with blanks
     memcpy(rem_parm.CERT_userid, userid, rem_parm.CERT_userid_len);
 
-    set_up_R_datalib_parameters(rdatalib_parms, &dataRemoveFunc, userid, keyring);
-    invoke_R_datalib(rdatalib_parms);
-    return check_return_code(rdatalib_parms);
+    set_up_R_datalib_parameters(&rdatalib_parms, &dataRemoveFunc, userid, keyring);
+    invoke_R_datalib(&rdatalib_parms);
+    return check_return_code(&rdatalib_parms);
 }
 
 // Entry point to the touchKeyring() function
@@ -270,7 +270,7 @@ static PyObject* touchKeyring(PyObject* self, PyObject* args, PyObject *kwargs) 
     strncpy(&keyring, keyring_in, MAX_KEYRING_LEN);
 
     R_datalib_function *func;
-    R_datalib_parm_list_64 *rdatalib_parms;
+    R_datalib_parm_list_64 rdatalib_parms;
 
     R_datalib_function newRingFunc = {"NEWRING", NEWRING_CODE, 0x00000000, 0, NULL};
     R_datalib_function refreshFunc = {"REFRESH", REFRESH_CODE, 0x00000000, 0, NULL};
@@ -290,9 +290,9 @@ static PyObject* touchKeyring(PyObject* self, PyObject* args, PyObject *kwargs) 
             printf("Error: invalid function code for touchKeyring");
             return throwRdatalibException(function_code,12,12,12);
     }
-    set_up_R_datalib_parameters(rdatalib_parms, func, userid, keyring);
-    invoke_R_datalib(rdatalib_parms);
-    return check_return_code(rdatalib_parms);
+    set_up_R_datalib_parameters(&rdatalib_parms, func, userid, keyring);
+    invoke_R_datalib(&rdatalib_parms);
+    return check_return_code(&rdatalib_parms);
 }
 
 // Entry point to the dataPut() function
@@ -316,7 +316,7 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
     strncpy(&cert_buff, cert_buff_in, MAX_CERTIFICATE_LEN);
     strncpy(&priv_key, priv_key_in, MAX_PRIVATE_KEY_LEN);
 
-    R_datalib_parm_list_64 *rdatalib_parms;
+    R_datalib_parm_list_64 rdatalib_parms;
 
     R_datalib_data_put put_parm;
     memset(&put_parm, 0x00, sizeof(R_datalib_data_put));
@@ -334,9 +334,9 @@ static PyObject* dataPut(PyObject* self, PyObject* args, PyObject *kwargs) {
     memset(put_parm.cert_userid, ' ', MAX_USERID_LEN); // fill the cert_userid field with blanks
     memcpy(put_parm.cert_userid, userid, put_parm.cert_userid_len);
 
-    set_up_R_datalib_parameters(rdatalib_parms, &dataPutFunc, userid, keyring);
-    invoke_R_datalib(rdatalib_parms);
-    return check_return_code(rdatalib_parms);
+    set_up_R_datalib_parameters(&rdatalib_parms, &dataPutFunc, userid, keyring);
+    invoke_R_datalib(&rdatalib_parms);
+    return check_return_code(&rdatalib_parms);
 }
 
 //Method docstrings
