@@ -36,6 +36,7 @@ void invoke_R_datalib(R_datalib_parm_list_64 * p) {
 }
 
 void set_up_R_datalib_parameters(R_datalib_parm_list_64 * p, R_datalib_function * function, char * userid, char * keyring) {
+    printf("entered setting up parms\n");
     memset(p, 0, sizeof(R_datalib_parm_list_64));
     printf("through the first memset\n");
     p->num_parms = 14;
