@@ -22,11 +22,11 @@ cert_admin.list_keyring(userid=user_name, keyring=key_ring_1, base_64_encoding=T
 
 #cert_admin.add_keyring(userid=user_name, keyring=key_ring_2)
 
-cert_admin.list_keyring(userid=user_name, keyring=key_ring_2)
-cert_admin.list_keyring(userid=user_name, keyring=key_ring_2, base_64_encoding=True)
+#cert_admin.list_keyring(userid=user_name, keyring=key_ring_2)
+#cert_admin.list_keyring(userid=user_name, keyring=key_ring_2, base_64_encoding=True)
 
 cert_admin.delete_certificate(
-    userid=user_name, keyring=key_ring_2, label="ElijahTestCert05"
+    userid=user_name, keyring=key_ring_1, label="ElijahTestCert05"
 )
 
 cert_admin.list_keyring(userid=user_name, keyring=key_ring_1, base_64_encoding=True)
