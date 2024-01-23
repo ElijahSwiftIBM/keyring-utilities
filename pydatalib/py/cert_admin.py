@@ -188,9 +188,9 @@ class CertAdmin:
                 f"Cannot export certificate to {full_path} as this file already exists."
             )
         if base_64_encoding:
-            file = open(full_path, "wb")
-        else:
             file = open(full_path, "w")
+        else:
+            file = open(full_path, "wb")
         file.write(certificate_package["certificate"])
         file.write(certificate_package["privateKey"])
         if self.__debug:
