@@ -29,10 +29,10 @@ cert_admin.add_keyring(userid=user_name, keyring=key_ring_2)
 #    userid=user_name, keyring=key_ring_1, label="ElijahTestCert05"
 #)
 
-cert_admin.list_keyring(userid=user_name, keyring=key_ring_1, base_64_encoding=True)
+#cert_admin.list_keyring(userid=user_name, keyring=key_ring_1, base_64_encoding=True)
 
-cert_admin.delete_keyring(userid=user_name, keyring=key_ring_2)
+#cert_admin.delete_keyring(userid=user_name, keyring=key_ring_2)
 
-cert_admin.add_certificate(userid=user_name, keyring=key_ring_1, label="ElijahTestCert06", certificate_data=temp_cert['certificate'], private_key=temp_cert['privateKey'])
+#cert_admin.add_certificate(userid=user_name, keyring=key_ring_1, label="ElijahTestCert06", certificate_data=temp_cert['certificate'], private_key=temp_cert['privateKey'])
 
-cert_admin.list_keyring(userid=user_name, keyring=key_ring_1, base_64_encoding=True)
+#cert_admin.list_keyring(userid=user_name, keyring=key_ring_1, base_64_encoding=True)
